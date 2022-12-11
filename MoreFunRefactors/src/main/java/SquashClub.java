@@ -15,7 +15,7 @@ public class SquashClub {
             result += "Match:\n";
             Player player1 = match.getPlayer1();
             result += "Player " + player1.getName() +" Score:\n";
-            for (Integer gamePoints: match.getPlayer1Points()) {
+            for (Integer gamePoints: match.pointsOfPlayer(player1)) {
                 result += gamePoints;
                 totalGames += gamePoints;
             }
@@ -39,7 +39,7 @@ public class SquashClub {
             Player player2 = match.getPlayer2();
             totalGames = 0;
             result += "Player " + player2.getName() +" Score:\n";
-            for (Integer gamePoints: match.getPlayer1Points()) {
+            for (Integer gamePoints: match.pointsOfPlayer(player2)) {
                 result += gamePoints;
                 totalGames += gamePoints;
             }

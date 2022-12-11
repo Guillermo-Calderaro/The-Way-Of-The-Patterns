@@ -20,4 +20,8 @@ public class Match {
         return player1Points.stream().reduce(0, Integer::sum)
                 > player2Points.stream().reduce(0, Integer::sum);
     }
+    public List<Integer> pointsOfPlayer(Player player){
+        return player1.equals(player) ? player1Points : player2Points;
+    }
+
 }
