@@ -21,19 +21,19 @@ public class Loan {
     }
     //Helper Methods for the calculation of the capital
     private double calcUnusedRiskAmount() {
-        return (notional - outstanding) * unusedPercentage;
+        return (this.getNotional() - this.getOutstanding()) * this.getUnusedPercentage();
     }
     private double duration() {
-        if (expiry == null)
+        if (this.getExpiry() == null)
             //for Term Loans
-            return ((maturity.getTime() - start.getTime()) / MILLIS_PER_DAY) / 365;
-        else if (maturity == null)
+            return ((this.getMaturity().getTime() - this.getStart().getTime()) / MILLIS_PER_DAY) / 365;
+        else if (this.getMaturity() == null)
             //for Revolver Loans
-            return ((expiry.getTime() - start.getTime()) / MILLIS_PER_DAY) / 365;
+            return ((this.getExpiry().getTime() - this.getStart().getTime()) / MILLIS_PER_DAY) / 365;
         else {
             //for RCTL Loan
-            long millisToExpiry = expiry.getTime() - start.getTime();
-            long millisFromExpiryToMaturity = maturity.getTime() - expiry.getTime();
+            long millisToExpiry = this.getExpiry().getTime() - this.getStart().getTime();
+            long millisFromExpiryToMaturity = this.getMaturity().getTime() - this.getExpiry().getTime();
             double revolverDuration = (millisToExpiry / MILLIS_PER_DAY) / 365;
             double termDuration = (millisFromExpiryToMaturity / MILLIS_PER_DAY) / 365;
             return revolverDuration + termDuration;
@@ -41,26 +41,26 @@ public class Loan {
     }
 
     private double riskAmount() {
-        if (unusedPercentage != 1.00)
+        if (this.getUnusedPercentage() != 1.00)
             //for Revolver Loans and for RCTL Loans
-            return outstanding + calcUnusedRiskAmount();
+            return this.getOutstanding() + calcUnusedRiskAmount();
         else
             //for Term Loans
-            return outstanding;
+            return this.getOutstanding();
     }
 
     private void setUnusedPercentage() {
-        if (expiry != null && maturity != null) {
+        if (this.getExpiry() != null && this.getMaturity() != null) {
             //for RCTL Loan
-            if (rating > 4)
+            if (this.getRating() > 4)
                 unusedPercentage = 0.95;
             else
                 unusedPercentage = 0.50;
-        } else if (maturity != null) {
+        } else if (this.getMaturity() != null) {
             unusedPercentage = 1.00;
-        } else if (expiry != null) {
+        } else if (this.getExpiry() != null) {
             //for Revolver Loan
-            if (rating > 4)
+            if (this.getRating() > 4)
                 unusedPercentage = 0.75;
             else
                 unusedPercentage = 0.25;
