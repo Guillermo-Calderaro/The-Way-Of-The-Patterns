@@ -20,9 +20,6 @@ public class Loan {
         outstanding = newOutstanding;
     }
     //Helper Methods for the calculation of the capital
-    private double calcUnusedRiskAmount() {
-        return (this.getNotional() - this.getOutstanding()) * this.getUnusedPercentage();
-    }
     private double duration() {
         if (this.getExpiry() == null)
             //for Term Loans
@@ -65,5 +62,9 @@ public class Loan {
             else
                 unusedPercentage = 0.25;
         }
+    }
+    // for Revolver Loans and RCTL Loan
+    private double calcUnusedRiskAmount() {
+        return (this.getNotional() - this.getOutstanding()) * this.getUnusedPercentage();
     }
 }
